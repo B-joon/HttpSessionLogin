@@ -1,0 +1,24 @@
+logging:
+  level:
+    com.fastcampus.projectboard: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+spring:
+  datasource:
+    url: jdbc:mariadb://193.122.127.164:3306/example?useSSL=false&autoReconnect=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: example
+    password: example12
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.MariaDB106Dialect
+  devtools:
+    livereload:
+      enabled: true

@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public String loginProcess(UserEntity user) {
+    public String loginProcess(UserVO user) {
 
         UserEntity userEntity = userRepository.findByUserId(user);
 

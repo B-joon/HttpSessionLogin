@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.example.boardlogin.config")
+//@ComponentScan(basePackages = "com.example.boardlogin.config")
 public class BoardLoginApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

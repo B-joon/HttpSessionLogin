@@ -26,7 +26,7 @@ public class BaseEntity {
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(nullable = false, length = 20, updatable = false)
+    @Column(length = 20, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
@@ -34,7 +34,7 @@ public class BaseEntity {
     private LocalDateTime modifiedAt;
 
     @LastModifiedBy
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String modifiedBy;
 
 }

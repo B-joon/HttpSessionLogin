@@ -1,5 +1,6 @@
 package com.example.boardlogin.service;
 
+import com.example.boardlogin.config.JpaConfig;
 import com.example.boardlogin.entity.UserEntity;
 import com.example.boardlogin.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,8 +23,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
@@ -39,8 +41,8 @@ class UserServiceTest {
         // given
         UserEntity user = new UserEntity();
         user.setUserId("admin");
-        String password = passwordEncoder.encode("admin12");
-        user.setPassword(password);
+//        String password = passwordEncoder.encode("admin12");
+        user.setPassword("admin12");
         user.setName("admin");
         user.setPhoneNumber("010-0000-0000");
         user.setAddr("어딘가");

@@ -2,6 +2,7 @@ package com.example.boardlogin.service;
 
 import com.example.boardlogin.entity.UserEntity;
 import com.example.boardlogin.repository.UserRepository;
+import com.example.boardlogin.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,24 @@ public class UserService {
         return "success";
     }
 
-    public String signupProcess(UserEntity user) {
+    public String signupProcess(UserVO user) {
 
+        UserEntity userEntity = new UserEntity();
 
+        userEntity.setUserId(user.getUserId());
+        String password = passwordEncoder.encode(user.getPassword());
+        userEntity.setPassword(password);
+        userEntity.setName(user.getName());
+        userEntity.setPhoneNumber(user.getPhoneNumber());
+        userEntity.setAddr(user.getAddr());
 
-        return "";
+        UserEntity result = userRepository.save(userEntity);
+
+        if (result == null) {
+            return "fail";
+        }
+
+        return "success";
     }
 
 }

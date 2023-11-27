@@ -1,17 +1,18 @@
 package com.example.boardlogin.controller;
 
-import com.example.boardlogin.entity.UserEntity;
 import com.example.boardlogin.service.UserService;
 import com.example.boardlogin.vo.ResponseVO;
 import com.example.boardlogin.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -19,15 +20,19 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/v1")
-    public ResponseVO<String> test(@RequestBody UserVO user) {
-        String userId = user.getUserId();
-        return new ResponseVO<String>(HttpStatus.OK, userId);
+    @PostMapping("/user/login")
+    public ResponseVO<String> loginProcess(@RequestBody UserVO user, HttpServletRequest request) {
+        return new ResponseVO<String>(HttpStatus.FOUND, userService.loginProcess(user, request));
     }
 
-    @PostMapping("/user/login")
-    public ResponseVO<String> loginProcess(@RequestBody UserVO user) {
-        return new ResponseVO<String>(HttpStatus.OK, userService.loginProcess(user));
+    @PostMapping("/user/logout")
+    public ResponseVO<String> logoutProcess(HttpServletRequest request) {
+        return new ResponseVO<>(HttpStatus.OK, userService.logoutProcess(request));
+    }
+
+    @PostMapping("/user/idcheck")
+    public ResponseVO<String> signupUserIdCheck(UserVO userVO) {
+        return new ResponseVO<>(HttpStatus.NOT_FOUND, userService.signupUserIdCheck(userVO));
     }
 
     @PostMapping("/user/signup")

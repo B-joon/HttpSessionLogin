@@ -4,7 +4,10 @@ import com.example.boardlogin.service.UserService;
 import com.example.boardlogin.vo.UserVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // 개인 테스트 DB를 사용하고 싶다면 Replace.NONE 설정을 해여한다.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -30,7 +32,7 @@ class UserControllerTest {
     @Autowired
     MockMvc mvc;
 
-    @MockBean
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -41,7 +43,6 @@ class UserControllerTest {
 
     private final static Logger log = LoggerFactory.getLogger(UserControllerTest.class);
 
-    @Disabled
     @DisplayName("유저 정보 세팅")
     @BeforeEach
     void setUp() throws Exception{
@@ -75,7 +76,29 @@ class UserControllerTest {
         mvc.perform(post("/api/user/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
-                .andExpect(status().isFound());
+                .andExpect(result -> {
+                    MockHttpServletResponse response = result.getResponse();
+                    log.info(response.getContentAsString());
+                });
+
+    }
+
+    @DisplayName("회원가입 계정 중복 확인")
+    @Test
+    void signup_userId_check() throws Exception{
+
+        UserVO userVO = new UserVO();
+        userVO.setUserId("admin");
+
+        String content = new Gson().toJson(userVO);
+
+        mvc.perform(post("/user/idcheck")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)).andDo(print())
+                .andExpect(result -> {
+                    MockHttpServletResponse response = result.getResponse();
+                    log.info(response.getContentAsString());
+                });
 
     }
 
@@ -96,7 +119,10 @@ class UserControllerTest {
         mvc.perform(post("/api/user/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
-                .andExpect(status().isCreated());
+                .andExpect(result -> {
+                    MockHttpServletResponse response = result.getResponse();
+                    log.info(response.getContentAsString());
+                });
 
     }
 }

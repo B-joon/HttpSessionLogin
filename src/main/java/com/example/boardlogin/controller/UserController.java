@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/user/idcheck")
-    public ResponseVO<String> signupUserIdCheck(UserVO userVO) {
+    public ResponseVO<String> signupUserIdCheck(@RequestBody UserVO userVO) {
         return new ResponseVO<>(HttpStatus.NOT_FOUND, userService.signupUserIdCheck(userVO));
     }
 

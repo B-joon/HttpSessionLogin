@@ -33,18 +33,19 @@ public class UserService {
 
         HttpSession session = request.getSession(true);
 
-        session.setAttribute("userIdx", userEntity.getIdx());
+        session.setAttribute("Idx", userEntity.getIdx());
         session.setAttribute("userId", userEntity.getUserId());
         session.setAttribute("name", userEntity.getName());
+        session.setMaxInactiveInterval(360);
 
         return "로그인 성공";
     }
 
     public String logoutProcess(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        log.info("[logoutProcess] session info : {} ", session);
+        log.info("[logoutProcess] session info : {} ", session.getAttribute("userId"));
 
-        if (session != null) {
+        if (session.getAttribute("userId") != null) {
             session.invalidate();
             return "로그아웃 성공";
         }
